@@ -23,14 +23,6 @@ target_at       = "#{app_name}_AT"
 plist_path_de   = "./#{app_name}/Targets/#{target_de}/#{target_de}.plist"
 plist_path_at   = "./#{app_name}/Targets/#{target_at}/#{target_at}.plist"
 
-# fabric
-api_token_de    = "94e7106b77d47c8ef6cbd727173eec6aadf8076c"
-api_token_at    = "77c35e22d498cd9b7ef0596223dcfa4b207eef49"
-build_secret_de = "39d2453a6113e80032f96ec5b149d1cb9fbdf0c967da635b5e99ce8814167c8a"
-build_secret_at = "5d878e5399451047955a3df6afe46e2326b032bc8874e9b10ad0d93b340e5205"
-fabric_de       = "https://fabric.io/marktgurude-development/ios/apps/com.marktguru.mg2.de.dev/beta/releases/latest"
-fabric_at       = "https://fabric.io/mg2at-development/ios/apps/marktguru.at.dev/beta/releases/latest"
-
 # firebase
 firebase_id_de  = "1:909562238570:ios:89b0b11cdc34b008"
 firebase_id_at  = "1:734510197966:ios:9fc16849f99deed4"
@@ -38,23 +30,19 @@ firebase_de     = "https://console.firebase.google.com/u/0/project/mg2-android/a
 firebase_at     = "https://console.firebase.google.com/u/0/project/tidy-way-487/appdistribution/app/ios:marktguru.at.dev/releases"
 
 # slack
-slack_url       = "https://hooks.slack.com/services/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"
-# slack_url       = "https://hooks.slack.com/services/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"    # for testing
+# slack_url       = "https://hooks.slack.com/services/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"
+slack_url       = "https://hooks.slack.com/services/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"    # for testing
 
 platform :ios do
 
-  before_all do
-    cocoapods
+  lane :test_notify do
+    # notify slack
+    notify_slack(title: "Testing Fastlane", title_link: "title_link", version: "version")
   end
 
   # used to upload builds to fabric
   lane :firebase do |params|
     private_firebase(params)
-  end
-
-  # used to upload builds to fabric
-  lane :fabric do |params|
-    private_fabric(params)
   end
 
   # used to upload builds to testflight
@@ -65,11 +53,6 @@ platform :ios do
   # used to upload builds to app store
   lane :store do |params|
     private_appstore(params)
-  end
-
-  # used to run unit tests
-  lane :tests do |params|
-    unit_tests
   end
 
 end

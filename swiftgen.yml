@@ -1,0 +1,23 @@
+xcassets:
+  inputs: "CodeHub/Resources/Assets.xcassets"
+  outputs:
+    templatePath: "CodeHub/Resources/Templates/stencils/assets.stencil"
+    output: "CodeHub/Resources/Generated/Assets.swift"
+    
+json:
+    inputs:
+    - "CodeHub/Resources/Base.lproj/Translations.json"
+    outputs:
+      templatePath: "CodeHub/Resources/Templates/stencils/strings.stencil"
+      output: "CodeHub/Resources/Generated/Strings.swift"
+      params:
+        publicAccess: true
+        enumName: Strings
+
+colors:
+  inputs: "CodeHub/Resources/Templates/jsons/Colors.json"
+  outputs:
+    templatePath: "CodeHub/Resources/Templates/stencils/colors.stencil"
+    output: "CodeHub/Resources/Generated/Colors.swift"
+    params:
+      publicAccess: true

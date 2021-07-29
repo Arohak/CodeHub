@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Bucket
+   uuid = "D1D03AD3-6003-4389-8E2C-C2A649F02D4A"
+   type = "1"
+   version = "2.0">
+   <Breakpoints>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "47548551-6F03-4D48-ABFF-627B7EA0B77B"
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "../../../Library/Developer/Xcode/DerivedData/Test-fynlaatwrmqncwgtprmhlbjidxmv/SourcePackages/checkouts/DataProvider/Sources/DataProvider/Table/TableView.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "74"
+            endingLineNumber = "74"
+            landmarkName = "configData(settings:sections:headerModels:footerModels:didSelectHeader:didSelectFooter:didSelect:didDeselect:cellForItem:didEditing:willBeginEditing:didEndEditing:willDisplay:didEndDisplaying:didScroll:didEndDragging:)"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "18247F35-9BB6-4BF9-AEEE-7B2532E91CEE"
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "Test/MVVM-C/MainModule/MainViewController_.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "48"
+            endingLineNumber = "48"
+            landmarkName = "didScroll(scrollView:)"
+            landmarkType = "7">
+            <Locations>
+               <Location
+                  uuid = "18247F35-9BB6-4BF9-AEEE-7B2532E91CEE - 80d117539a8a9b8"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "Test.MainViewController_.didScroll(scrollView: __C.UIScrollView) -&gt; ()"
+                  moduleName = "Test"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/arahakobyan/%23All/%23Projects/Test/Test/MVVM-C/MainModule/MainViewController_.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "48"
+                  endingLineNumber = "48"
+                  offsetFromSymbolStart = "390">
+               </Location>
+               <Location
+                  uuid = "18247F35-9BB6-4BF9-AEEE-7B2532E91CEE - 50ff655bf89bcc80"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "closure #1 (Test.MainViewData) -&gt; () in Test.MainViewController_.didScroll(scrollView: __C.UIScrollView) -&gt; ()"
+                  moduleName = "Test"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/arahakobyan/%23All/%23Projects/Test/Test/MVVM-C/MainModule/MainViewController_.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "48"
+                  endingLineNumber = "48"
+                  offsetFromSymbolStart = "128">
+               </Location>
+            </Locations>
+         </BreakpointContent>
+      </BreakpointProxy>
+   </Breakpoints>
+</Bucket>

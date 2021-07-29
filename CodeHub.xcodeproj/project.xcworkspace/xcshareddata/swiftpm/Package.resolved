@@ -1,0 +1,25 @@
+{
+  "object": {
+    "pins": [
+      {
+        "package": "APIClient",
+        "repositoryURL": "https://github.com/Arohak/APIClient.git",
+        "state": {
+          "branch": null,
+          "revision": "778aae81f36bdc6cf78481d445a2cf367f13ca24",
+          "version": "0.1.6"
+        }
+      },
+      {
+        "package": "DataProvider",
+        "repositoryURL": "https://github.com/Arohak/DataProvider.git",
+        "state": {
+          "branch": null,
+          "revision": "7e4c00b09a189b5387d9458d41e946bab16a27b3",
+          "version": "0.2.8"
+        }
+      }
+    ]
+  },
+  "version": 1
+}

@@ -1,0 +1,309 @@
+# This file contains the fastlane.tools configuration
+# You can find the documentation at https://docs.fastlane.tools
+#
+# For a list of all available actions, check out
+#
+#     https://docs.fastlane.tools/actions
+#
+# For a list of all available plugins, check out
+#
+#     https://docs.fastlane.tools/plugins/available-plugins
+#
+
+# Uncomment the line if you want fastlane to automatically update itself
+# update_fastlane
+
+default_platform(:ios)
+
+app_name        = "MG2"
+app_path        = "./build"
+
+target_de       = "#{app_name}_DE"
+target_at       = "#{app_name}_AT" 
+plist_path_de   = "./#{app_name}/Targets/#{target_de}/#{target_de}.plist"
+plist_path_at   = "./#{app_name}/Targets/#{target_at}/#{target_at}.plist"
+
+# fabric
+api_token_de    = "94e7106b77d47c8ef6cbd727173eec6aadf8076c"
+api_token_at    = "77c35e22d498cd9b7ef0596223dcfa4b207eef49"
+build_secret_de = "39d2453a6113e80032f96ec5b149d1cb9fbdf0c967da635b5e99ce8814167c8a"
+build_secret_at = "5d878e5399451047955a3df6afe46e2326b032bc8874e9b10ad0d93b340e5205"
+fabric_de       = "https://fabric.io/marktgurude-development/ios/apps/com.marktguru.mg2.de.dev/beta/releases/latest"
+fabric_at       = "https://fabric.io/mg2at-development/ios/apps/marktguru.at.dev/beta/releases/latest"
+
+# firebase
+firebase_id_de  = "1:909562238570:ios:89b0b11cdc34b008"
+firebase_id_at  = "1:734510197966:ios:9fc16849f99deed4"
+firebase_de     = "https://console.firebase.google.com/u/0/project/mg2-android/appdistribution/app/ios:com.marktguru.mg2.de.dev/releases"
+firebase_at     = "https://console.firebase.google.com/u/0/project/tidy-way-487/appdistribution/app/ios:marktguru.at.dev/releases"
+
+# slack
+slack_url       = "https://hooks.slack.com/services/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"
+# slack_url       = "https://hooks.slack.com/services/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"    # for testing
+
+platform :ios do
+
+  before_all do
+    cocoapods
+  end
+
+  # used to upload builds to fabric
+  lane :firebase do |params|
+    private_firebase(params)
+  end
+
+  # used to upload builds to fabric
+  lane :fabric do |params|
+    private_fabric(params)
+  end
+
+  # used to upload builds to testflight
+  lane :test do |params|
+    private_testflight(params)
+  end
+
+  # used to upload builds to app store
+  lane :store do |params|
+    private_appstore(params)
+  end
+
+  # used to run unit tests
+  lane :tests do |params|
+    unit_tests
+  end
+
+end
+
+private_lane :private_firebase do |params|
+    target = target_name(params)
+    scheme = "#{target} Development" # "#{target} Production"
+    output = "#{target}.ipa"
+
+    # version bump
+    inc_build_number(params)
+
+    # enable automatic code signing
+    enable_automatic_code_signing
+
+    # build app
+    build_app(
+        workspace:          "#{app_name}.xcworkspace", 
+        scheme:             scheme,
+        export_method:      "development",
+        configuration:      "Debug",
+        output_name:        output,
+        output_directory:   app_path,
+        build_path:         app_path,
+        buildlog_path:      app_path,
+        silent:             true,
+        clean:              true,
+        export_xcargs:      "-allowProvisioningUpdates",
+        # skip_build_archive: true,
+        # archive_path:       "#{app_path}/#{target}.xcarchive", # should change build/*.xcarchive name to 'MG2_AT.xcarchive'
+    )
+
+    # upload to firebase
+    firebase_app_distribution(
+        app:                firebase_id(params),
+        groups:             params[:group] ? params[:group] : "Testers",
+        release_notes:      params[:notes] || "Latest Beta build",
+        firebase_cli_path:  "/usr/local/bin/firebase",
+        ipa_path:           "#{app_path}/#{target}.ipa"
+    )
+
+    # notify slack
+    title = "#{target} build has been uploaded to the Firebase!"
+    title_link = firebase_link(params)
+    version = "#{version(params)}(#{bundleVersion(params)})"
+    notify_slack(title: title, title_link: title_link, version: version)
+end
+
+private_lane :private_fabric do |params|
+    target = target_name(params)
+    scheme = "#{target} Development" # "#{target} Production"
+    output = "#{target}.ipa"
+
+    # version bump
+    inc_build_number(params)
+
+    # enable automatic code signing
+    enable_automatic_code_signing
+
+    # build app
+    build_app(
+        workspace:          "#{app_name}.xcworkspace", 
+        scheme:             scheme,
+        export_method:      "development",
+        configuration:      "Debug",
+        output_name:        output,
+        output_directory:   app_path,
+        build_path:         app_path,
+        buildlog_path:      app_path,
+        silent:             true,
+        clean:              true,
+        export_xcargs:      "-allowProvisioningUpdates",
+        # skip_build_archive: true,
+        # archive_path:       "#{app_path}/#{target}.xcarchive",
+    )
+
+    # upload to crashlytics
+    crashlytics(
+        api_token:          api_token(params),
+        build_secret:       build_secret(params),
+        notes:              params[:notes] || "Latest Beta build",
+        groups:             params[:group] ? [params[:group]] : ["Testers"]
+    )   
+    
+    # upload dSYM
+    upload_symbols_to_crashlytics(
+        dsym_path:          "./#{app_path}/#{target}.app.dSYM.zip",
+        api_token:          api_token(params)
+    )
+
+    # notify slack
+    title = "#{target} build has been uploaded to the Fabric!"
+    title_link = fabric_link(params)
+    version = "#{version(params)}(#{bundleVersion(params)})"
+    notify_slack(title: title, title_link: title_link, version: version)
+end
+
+private_lane :private_testflight do |params|
+    target = target_name(params)
+    scheme = "#{target} Production"
+    output = "#{target}.ipa"
+
+    # version bump
+    inc_build_number(params)
+
+    # enable automatic code signing
+    enable_automatic_code_signing
+
+    # build app
+    build_app(
+        workspace:          "#{app_name}.xcworkspace", 
+        scheme:             scheme,
+        output_name:        output,
+        output_directory:   app_path,
+        build_path:         app_path,
+        buildlog_path:      app_path,
+        silent:             true,
+        clean:              true
+    )
+
+    # upload to testflight
+    upload_to_testflight(
+        username: params[:username],
+        skip_submission: true,
+        skip_waiting_for_build_processing: true
+    )
+
+    # notify slack
+    fullVersion = "#{version(params)}(#{bundleVersion(params)})"
+    notify_slack(message: "#{target} build has been uploaded to the Testflight!", version: fullVersion)
+end
+
+private_lane :private_appstore do |params|
+    target = target_name(params)
+    scheme = "#{target} Production"
+        
+    # version bump
+    inc_build_number(params)
+
+    # enable automatic code signing
+    enable_automatic_code_signing
+
+    # build app
+    build_app(
+        workspace:  "#{app_name}.xcworkspace", 
+        scheme:     scheme
+    )
+
+    # upload to appstore
+    appstore(
+        username:           params[:username],
+        skip_screenshots:   true,
+        skip_metadata:      true,
+        force:              true,
+    )
+
+    # notify slack
+    fullVersion = "#{version(params)}(#{bundleVersion(params)})"
+    notify_slack(message: "#{target} build has been uploaded to the AppStore!", version: fullVersion)
+end
+
+private_lane :api_token do |params|
+    isDe = params[:type] == "DE"
+    value = isDe ? api_token_de : api_token_at
+    value
+end
+
+private_lane :build_secret do |params|
+    isDe = params[:type] == "DE"
+    value = isDe ? build_secret_de : build_secret_at
+    value
+end
+
+private_lane :target_name do |params|
+    isDe = params[:type] == "DE"
+    value = isDe ? target_de : target_at
+    value
+end
+
+private_lane :plist_path do |params|
+    isDe = params[:type] == "DE"
+    value = isDe ? plist_path_de : plist_path_at
+    value
+end
+
+private_lane :fabric_link do |params|
+    isDe = params[:type] == "DE"
+    value = isDe ? fabric_de : fabric_at
+    value
+end
+
+private_lane :firebase_id do |params|
+    isDe = params[:type] == "DE"
+    value = isDe ? firebase_id_de : firebase_id_at
+    value
+end
+
+private_lane :firebase_link do |params|
+    isDe = params[:type] == "DE"
+    value = isDe ? firebase_de : firebase_at
+    value
+end
+
+private_lane :version do |params|
+    version = get_info_plist_value(path: plist_path(params), key: "CFBundleShortVersionString")
+    version
+end
+
+private_lane :bundleVersion do |params|
+    bundle = get_info_plist_value(path: plist_path(params), key: "CFBundleVersion")
+    bundle
+end
+
+private_lane :inc_build_number do |params|
+    plist_path  = plist_path(params)
+    version     = version(params)
+    build       = bundleVersion(params)
+    new_version = params[:version] || version
+    new_build   = params[:build] || (build.to_i + 1).to_s
+
+    puts "current: #{version}(#{build}), new: #{new_version}(#{new_build})"
+
+    set_info_plist_value(path: plist_path, key: "CFBundleShortVersionString", value: new_version)
+    set_info_plist_value(path: plist_path, key: "CFBundleVersion", value: new_build)
+end
+
+private_lane :notify_slack do |params|
+    slack(
+        slack_url:              slack_url,
+        payload:                { Version: params[:version]},
+        default_payloads:       [:git_branch],
+        attachment_properties: { 
+          title:        params[:title],
+          title_link:   params[:title_link]
+        }
+    )
+end

@@ -12,6 +12,7 @@ setup:
 resources:
 	mkdir -p "CodeHub/Resources/Generated"
 	swiftgen config run --config swiftgen.yml
+	fastlane add_plugin firebase_app_distribution
 	
 #
 format:

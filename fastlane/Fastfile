@@ -15,28 +15,22 @@
 
 default_platform(:ios)
 
-app_name        = "MG2"
+app_name        = "CodeHub"
 app_path        = "./build"
 
-target_de       = "#{app_name}_DE"
-target_at       = "#{app_name}_AT" 
-plist_path_de   = "./#{app_name}/Targets/#{target_de}/#{target_de}.plist"
-plist_path_at   = "./#{app_name}/Targets/#{target_at}/#{target_at}.plist"
+target          = "#{app_name}"
+plist_path      = "./#{app_name}/Resources/Info.plist"
 
 # firebase
-firebase_id_de  = "1:909562238570:ios:89b0b11cdc34b008"
-firebase_id_at  = "1:734510197966:ios:9fc16849f99deed4"
-firebase_de     = "https://console.firebase.google.com/u/0/project/mg2-android/appdistribution/app/ios:com.marktguru.mg2.de.dev/releases"
-firebase_at     = "https://console.firebase.google.com/u/0/project/tidy-way-487/appdistribution/app/ios:marktguru.at.dev/releases"
+firebase_id     = "1:634804401538:ios:157d41663bc6af35dd8b9b"
+firebase_link   = "https://console.firebase.google.com/u/0/project/brilliant-fire-5806/appdistribution/app/ios:com.arohak.codehub/releases"
 
 # slack
-# slack_url       = "https://hooks.slack.com/services/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"
-slack_url       = "https://hooks.slack.com/services/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"    # for testing
+slack_url       = "https://hooks.slack.com/services/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"    # Aro for testing
 
 platform :ios do
 
   lane :test_notify do
-    # notify slack
     notify_slack(title: "Testing Fastlane", title_link: "title_link", version: "version")
   end
 
@@ -58,19 +52,18 @@ platform :ios do
 end
 
 private_lane :private_firebase do |params|
-    target = target_name(params)
-    scheme = "#{target} Development" # "#{target} Production"
+    scheme = "#{target} Dev"
     output = "#{target}.ipa"
 
     # version bump
-    inc_build_number(params)
+    inc_build_number()
+    # increment_version_minor
 
     # enable automatic code signing
     enable_automatic_code_signing
 
     # build app
     build_app(
-        workspace:          "#{app_name}.xcworkspace", 
         scheme:             scheme,
         export_method:      "development",
         configuration:      "Debug",
@@ -87,7 +80,7 @@ private_lane :private_firebase do |params|
 
     # upload to firebase
     firebase_app_distribution(
-        app:                firebase_id(params),
+        app:                firebase_id,
         groups:             params[:group] ? params[:group] : "Testers",
         release_notes:      params[:notes] || "Latest Beta build",
         firebase_cli_path:  "/usr/local/bin/firebase",
@@ -96,74 +89,22 @@ private_lane :private_firebase do |params|
 
     # notify slack
     title = "#{target} build has been uploaded to the Firebase!"
-    title_link = firebase_link(params)
-    version = "#{version(params)}(#{bundleVersion(params)})"
-    notify_slack(title: title, title_link: title_link, version: version)
-end
-
-private_lane :private_fabric do |params|
-    target = target_name(params)
-    scheme = "#{target} Development" # "#{target} Production"
-    output = "#{target}.ipa"
-
-    # version bump
-    inc_build_number(params)
-
-    # enable automatic code signing
-    enable_automatic_code_signing
-
-    # build app
-    build_app(
-        workspace:          "#{app_name}.xcworkspace", 
-        scheme:             scheme,
-        export_method:      "development",
-        configuration:      "Debug",
-        output_name:        output,
-        output_directory:   app_path,
-        build_path:         app_path,
-        buildlog_path:      app_path,
-        silent:             true,
-        clean:              true,
-        export_xcargs:      "-allowProvisioningUpdates",
-        # skip_build_archive: true,
-        # archive_path:       "#{app_path}/#{target}.xcarchive",
-    )
-
-    # upload to crashlytics
-    crashlytics(
-        api_token:          api_token(params),
-        build_secret:       build_secret(params),
-        notes:              params[:notes] || "Latest Beta build",
-        groups:             params[:group] ? [params[:group]] : ["Testers"]
-    )   
-    
-    # upload dSYM
-    upload_symbols_to_crashlytics(
-        dsym_path:          "./#{app_path}/#{target}.app.dSYM.zip",
-        api_token:          api_token(params)
-    )
-
-    # notify slack
-    title = "#{target} build has been uploaded to the Fabric!"
-    title_link = fabric_link(params)
-    version = "#{version(params)}(#{bundleVersion(params)})"
-    notify_slack(title: title, title_link: title_link, version: version)
+    version = "#{version()}(#{bundleVersion()})"
+    notify_slack(title: title, title_link: firebase_link, version: version)
 end
 
 private_lane :private_testflight do |params|
-    target = target_name(params)
-    scheme = "#{target} Production"
+    scheme = "#{target} Prod"
     output = "#{target}.ipa"
 
     # version bump
-    inc_build_number(params)
+    inc_build_number()
 
     # enable automatic code signing
     enable_automatic_code_signing
 
     # build app
     build_app(
-        workspace:          "#{app_name}.xcworkspace", 
         scheme:             scheme,
         output_name:        output,
         output_directory:   app_path,
@@ -181,23 +122,21 @@ private_lane :private_testflight do |params|
     )
 
     # notify slack
-    fullVersion = "#{version(params)}(#{bundleVersion(params)})"
+    fullVersion = "#{version()}(#{bundleVersion()})"
     notify_slack(message: "#{target} build has been uploaded to the Testflight!", version: fullVersion)
 end
 
 private_lane :private_appstore do |params|
-    target = target_name(params)
-    scheme = "#{target} Production"
+    scheme = "#{target} Prod"
         
     # version bump
-    inc_build_number(params)
+    inc_build_number()
 
     # enable automatic code signing
     enable_automatic_code_signing
 
     # build app
     build_app(
-        workspace:  "#{app_name}.xcworkspace", 
         scheme:     scheme
     )
 
@@ -210,73 +149,54 @@ private_lane :private_appstore do |params|
     )
 
     # notify slack
-    fullVersion = "#{version(params)}(#{bundleVersion(params)})"
+    fullVersion = "#{version()}(#{bundleVersion()})"
     notify_slack(message: "#{target} build has been uploaded to the AppStore!", version: fullVersion)
 end
 
-private_lane :api_token do |params|
-    isDe = params[:type] == "DE"
-    value = isDe ? api_token_de : api_token_at
-    value
-end
-
-private_lane :build_secret do |params|
-    isDe = params[:type] == "DE"
-    value = isDe ? build_secret_de : build_secret_at
-    value
-end
-
-private_lane :target_name do |params|
-    isDe = params[:type] == "DE"
-    value = isDe ? target_de : target_at
-    value
-end
-
-private_lane :plist_path do |params|
-    isDe = params[:type] == "DE"
-    value = isDe ? plist_path_de : plist_path_at
-    value
-end
-
-private_lane :fabric_link do |params|
-    isDe = params[:type] == "DE"
-    value = isDe ? fabric_de : fabric_at
-    value
-end
-
-private_lane :firebase_id do |params|
-    isDe = params[:type] == "DE"
-    value = isDe ? firebase_id_de : firebase_id_at
-    value
-end
-
-private_lane :firebase_link do |params|
-    isDe = params[:type] == "DE"
-    value = isDe ? firebase_de : firebase_at
-    value
-end
-
-private_lane :version do |params|
-    version = get_info_plist_value(path: plist_path(params), key: "CFBundleShortVersionString")
+private_lane :version do
+    version = get_info_plist_value(path: plist_path, key: "CFBundleShortVersionString")
     version
 end
 
-private_lane :bundleVersion do |params|
-    bundle = get_info_plist_value(path: plist_path(params), key: "CFBundleVersion")
+private_lane :bundleVersion do 
+    bundle = get_info_plist_value(path: plist_path, key: "CFBundleVersion")
     bundle
 end
 
 private_lane :inc_build_number do |params|
-    plist_path  = plist_path(params)
-    version     = version(params)
-    build       = bundleVersion(params)
-    new_version = params[:version] || version
-    new_build   = params[:build] || (build.to_i + 1).to_s
+    new_version = params[:version] || version()
+    new_build   = params[:build] || (bundleVersion().to_i + 1).to_s
 
-    puts "current: #{version}(#{build}), new: #{new_version}(#{new_build})"
+    puts "current: #{version()}(#{bundleVersion()}), new: #{new_version}(#{new_build})"
 
     set_info_plist_value(path: plist_path, key: "CFBundleShortVersionString", value: new_version)
     set_info_plist_value(path: plist_path, key: "CFBundleVersion", value: new_build)
+end
+
+private_lane :increment_build do
+    increment_build_number
+    commit_version_bump
+end
+
+private_lane :increment_version_patch do
+    increment_version_number(
+        bump_type: "patch"
+    )
+    increment_build
+end
+
+private_lane :increment_version_minor do
+    increment_version_number(
+        bump_type: "minor"
+    )
+    increment_build
+end
+
+private_lane :increment_version_major do
+    increment_version_number(
+        bump_type: "major"
+    )
+    increment_build
 end
 
 private_lane :notify_slack do |params|

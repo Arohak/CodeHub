@@ -3,18 +3,14 @@
 
 
 # For more information about the Appfile, see:
-#     https://docs.fastlane.tools/advanced/#appfile
+# https://docs.fastlane.tools/advanced/#appfile
 
 # fastlane add_plugin versioning
 
 # export LC_ALL=en_US.UTF-8
 # export LANG=en_US.UTF-8
-# fastlane fabric type:DE
-# fastlane fabric version:3.2.12 build:1721 type:DE
-# fastlane fabric version:3.2.12 build:1721 type:DE notes:'Latest Beta build' group:Testers
 
-# fastlane firebase type:DE
-# fastlane firebase version:3.4.2 build:1794 type:DE
-# fastlane firebase version:3.2.12 build:1721 type:DE notes:'Latest Beta build' group:Testers
-
-# bundle exec fastlane firebase version:3.4.1 build:1798 type:DE notes:'Latest Beta build' group:Testers
+# fastlane firebase
+# fastlane firebase version:3.4.2 build:1794
+# fastlane firebase version:3.2.12 build:1721 notes:'Latest Beta build' group:Testers
+# bundle exec fastlane firebase version:3.4.1 build:1798 notes:'Latest Beta build' group:Testers

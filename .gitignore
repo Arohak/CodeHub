@@ -2,3 +2,7 @@ vendor
 
 CodeHub/Resources/Generated
 *.xcuserstate
+.DS_Store
+*.xcworkspacedata
+build
+fastlane/report.xml

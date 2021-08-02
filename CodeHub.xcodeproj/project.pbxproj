@@ -72,6 +72,7 @@
 		129667452691DA3F00DC6DA0 /* DetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 129667442691DA3F00DC6DA0 /* DetailViewController.swift */; };
 		129667472691DAC400DC6DA0 /* DetailViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 129667462691DAC400DC6DA0 /* DetailViewModel.swift */; };
 		129667492691DB9000DC6DA0 /* ViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 129667482691DB9000DC6DA0 /* ViewModel.swift */; };
+		12CA185326B7E83300F88A6A /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 12CA185226B7E83300F88A6A /* LaunchScreen.storyboard */; };
 		12D731AF2699808200DF220E /* SignInViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 12D731AE2699808100DF220E /* SignInViewController.swift */; };
 		12D731B1269980A500DF220E /* SignInRootView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 12D731B0269980A500DF220E /* SignInRootView.swift */; };
 		12D731B426998C5D00DF220E /* SignInDependencyContainer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 12D731B326998C5D00DF220E /* SignInDependencyContainer.swift */; };
@@ -147,6 +148,7 @@
 		129667442691DA3F00DC6DA0 /* DetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailViewController.swift; sourceTree = "<group>"; };
 		129667462691DAC400DC6DA0 /* DetailViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailViewModel.swift; sourceTree = "<group>"; };
 		129667482691DB9000DC6DA0 /* ViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewModel.swift; sourceTree = "<group>"; };
+		12CA185226B7E83300F88A6A /* LaunchScreen.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = LaunchScreen.storyboard; sourceTree = "<group>"; };
 		12D731AE2699808100DF220E /* SignInViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignInViewController.swift; sourceTree = "<group>"; };
 		12D731B0269980A500DF220E /* SignInRootView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignInRootView.swift; sourceTree = "<group>"; };
 		12D731B326998C5D00DF220E /* SignInDependencyContainer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignInDependencyContainer.swift; sourceTree = "<group>"; };
@@ -315,11 +317,12 @@
 		127DB2B626B2F15E00BCFF21 /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				1272612F255C44CA00A0C0F0 /* Info.plist */,
 				127DB2EA26B2FD3900BCFF21 /* Templates */,
 				127DB2E126B2FCC200BCFF21 /* Generated */,
-				127DB30126B2FF3D00BCFF21 /* Translations.json */,
-				1272612F255C44CA00A0C0F0 /* Info.plist */,
 				1272612A255C44CA00A0C0F0 /* Assets.xcassets */,
+				127DB30126B2FF3D00BCFF21 /* Translations.json */,
+				12CA185226B7E83300F88A6A /* LaunchScreen.storyboard */,
 			);
 			path = Resources;
 			sourceTree = "<group>";
@@ -542,6 +545,7 @@
 				127DB2DB26B2FB6300BCFF21 /* .swiftformat in Resources */,
 				127DB2E726B2FCEA00BCFF21 /* Pluginfile in Resources */,
 				127DB2DD26B2FB6300BCFF21 /* swiftgen.yml in Resources */,
+				12CA185326B7E83300F88A6A /* LaunchScreen.storyboard in Resources */,
 				127DB2E926B2FCEA00BCFF21 /* Fastfile in Resources */,
 				127DB2F226B2FD3900BCFF21 /* assets.stencil in Resources */,
 				127DB2DC26B2FB6300BCFF21 /* README.md in Resources */,

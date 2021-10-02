@@ -25,13 +25,11 @@ plist_path      = "./#{app_name}/Resources/Info.plist"
 firebase_id     = "1:634804401538:ios:157d41663bc6af35dd8b9b"
 firebase_link   = "https://console.firebase.google.com/u/0/project/brilliant-fire-5806/appdistribution/app/ios:com.arohak.codehub/releases"
 
-# slack
-slack_url       = "https://hooks.slack.com/services/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"    # Aro for testing
-
 platform :ios do
 
   lane :test_notify do
-    notify_slack(title: "Testing Fastlane", title_link: "title_link", version: "version")
+    # notify_slack(title: "Testing Fastlane", title_link: "title_link", version: "version")
+    slack_message()
   end
 
   # used to upload builds to fabric
@@ -201,7 +199,7 @@ end
 
 private_lane :notify_slack do |params|
     slack(
-        slack_url:              slack_url,
+        slack_url:              ENV["SLACK_URL"],
         payload:                { Version: params[:version]},
         default_payloads:       [:git_branch],
         attachment_properties: { 
@@ -209,4 +207,35 @@ private_lane :notify_slack do |params|
           title_link:   params[:title_link]
         }
     )
+end
+
+private_lane :slack_message do
+    blocks = [
+        {
+            "type": "image",
+            "title": {
+                "type": "plain_text",
+                "text": "image1",
+                "emoji": true
+            },
+            "image_url": "https://api.slack.com/img/blocks/bkb_template_images/onboardingComplex.jpg",
+            "alt_text": "image1"
+        },
+        {
+            "type": "section",
+            "text": {
+                "type": "mrkdwn",
+                "text": "Hey there 👋 I'm TaskBot. I'm here to help you create and manage tasks in Slack.\nThere are two ways to quickly create tasks:"
+            }
+        }
+    ]
+
+    send_slack_message(url: ENV["SLACK_URL"], blocks: blocks)
+end
+
+private_lane :send_slack_message do |options|
+    require 'slack-notifier'
+        
+    notifier = Slack::Notifier.new options[:url], username: "iOS Bot"
+    notifier.post(blocks: options[:blocks])
 end

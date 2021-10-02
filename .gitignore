@@ -8,3 +8,4 @@ CodeHub/Resources/Generated
 
 fastlane/report.xml
 build
+fastlane/.env.default

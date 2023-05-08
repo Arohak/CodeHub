@@ -19,6 +19,8 @@ class MainViewController: ViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         bindViewModel()
+        
+        AnalyticsCenter.shared.track(MixpanelAnalyticsEvent.screenView(name: "Main", source: nil))
     }
 
     private func bindViewModel() {

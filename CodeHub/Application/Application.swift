@@ -16,7 +16,11 @@ final class Application: NSObject {
 
     override private init() {
         navigator = Navigator.default
+        
         webService = RestApi()
+        
+        AnalyticsCenter.shared.initialize()
+        
         super.init()
     }
 

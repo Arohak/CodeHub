@@ -79,6 +79,10 @@
 		12D731B626998CB000DF220E /* SignInUserInterface.swift in Sources */ = {isa = PBXBuildFile; fileRef = 12D731B526998CB000DF220E /* SignInUserInterface.swift */; };
 		12D731B826998CF200DF220E /* SignInViewState.swift in Sources */ = {isa = PBXBuildFile; fileRef = 12D731B726998CF200DF220E /* SignInViewState.swift */; };
 		12D731BA26998D7A00DF220E /* Observer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 12D731B926998D7A00DF220E /* Observer.swift */; };
+		22B6FEC32A08C85900E86928 /* AnalyticsService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 22B6FEC02A08C85900E86928 /* AnalyticsService.swift */; };
+		22B6FEC42A08C85900E86928 /* AnalyticsCenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 22B6FEC12A08C85900E86928 /* AnalyticsCenter.swift */; };
+		22B6FEC72A08D26400E86928 /* MixpanelAnalyticsService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 22B6FEC62A08D26400E86928 /* MixpanelAnalyticsService.swift */; };
+		22B6FEC92A08D6C500E86928 /* AmplitudeAnalyticsService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 22B6FEC82A08D6C500E86928 /* AmplitudeAnalyticsService.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -155,6 +159,10 @@
 		12D731B526998CB000DF220E /* SignInUserInterface.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignInUserInterface.swift; sourceTree = "<group>"; };
 		12D731B726998CF200DF220E /* SignInViewState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignInViewState.swift; sourceTree = "<group>"; };
 		12D731B926998D7A00DF220E /* Observer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Observer.swift; sourceTree = "<group>"; };
+		22B6FEC02A08C85900E86928 /* AnalyticsService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AnalyticsService.swift; sourceTree = "<group>"; };
+		22B6FEC12A08C85900E86928 /* AnalyticsCenter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AnalyticsCenter.swift; sourceTree = "<group>"; };
+		22B6FEC62A08D26400E86928 /* MixpanelAnalyticsService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MixpanelAnalyticsService.swift; sourceTree = "<group>"; };
+		22B6FEC82A08D6C500E86928 /* AmplitudeAnalyticsService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AmplitudeAnalyticsService.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -288,6 +296,7 @@
 		1272616D255C45AD00A0C0F0 /* Common */ = {
 			isa = PBXGroup;
 			children = (
+				22B6FEBE2A08C7F500E86928 /* Analytics */,
 				127DB2B826B2F22F00BCFF21 /* Networking */,
 				127DB2B726B2F21900BCFF21 /* Extentions */,
 				124A27F3269A3FF80059D5E6 /* Box.swift */,
@@ -472,6 +481,25 @@
 			path = SignIn;
 			sourceTree = "<group>";
 		};
+		22B6FEBE2A08C7F500E86928 /* Analytics */ = {
+			isa = PBXGroup;
+			children = (
+				22B6FEC12A08C85900E86928 /* AnalyticsCenter.swift */,
+				22B6FEC02A08C85900E86928 /* AnalyticsService.swift */,
+				22B6FEC52A08D25800E86928 /* Services */,
+			);
+			path = Analytics;
+			sourceTree = "<group>";
+		};
+		22B6FEC52A08D25800E86928 /* Services */ = {
+			isa = PBXGroup;
+			children = (
+				22B6FEC62A08D26400E86928 /* MixpanelAnalyticsService.swift */,
+				22B6FEC82A08D6C500E86928 /* AmplitudeAnalyticsService.swift */,
+			);
+			path = Services;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -592,15 +620,19 @@
 				124A27E9269A39240059D5E6 /* KeyboardObserverEventResponder.swift in Sources */,
 				12D731AF2699808200DF220E /* SignInViewController.swift in Sources */,
 				129667402691A88000DC6DA0 /* MainViewModel.swift in Sources */,
+				22B6FEC42A08C85900E86928 /* AnalyticsCenter.swift in Sources */,
 				1272617E255C481700A0C0F0 /* MainView.swift in Sources */,
 				129667452691DA3F00DC6DA0 /* DetailViewController.swift in Sources */,
 				12726184255C499C00A0C0F0 /* MainTableViewCell.swift in Sources */,
 				124A27F4269A3FF80059D5E6 /* Box.swift in Sources */,
+				22B6FEC32A08C85900E86928 /* AnalyticsService.swift in Sources */,
 				124A27E2269A38600059D5E6 /* SignInStateObserverEventResponder.swift in Sources */,
+				22B6FEC72A08D26400E86928 /* MixpanelAnalyticsService.swift in Sources */,
 				127DB2C626B2F35800BCFF21 /* ReceiptDTO.swift in Sources */,
 				1216EE67268905EF00208DC0 /* DetailView.swift in Sources */,
 				127DB2CC26B2F80000BCFF21 /* Application.swift in Sources */,
 				12D731B1269980A500DF220E /* SignInRootView.swift in Sources */,
+				22B6FEC92A08D6C500E86928 /* AmplitudeAnalyticsService.swift in Sources */,
 				129667422691AB6300DC6DA0 /* DetailCoordinator.swift in Sources */,
 				12D731B426998C5D00DF220E /* SignInDependencyContainer.swift in Sources */,
 				127DB2C526B2F35800BCFF21 /* ReceiptsDTO.swift in Sources */,
